@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -18,11 +20,28 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+
+    initFBDeferredDeeplinks();
+  }
+
+  /// FB Deferred Deeplinks
+  void initFBDeferredDeeplinks() async {
+    String deepLinkUrl;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      deepLinkUrl = await FlutterFacebookAppLinks.initFBLinks();
+      if (Platform.isIOS)
+        deepLinkUrl = await FlutterFacebookAppLinks.getDeepLink();
+
+      print('initFBDeferredDeeplinks deepLinkUrl = ' + deepLinkUrl);
+    } catch (e) {
+      print(e);
+    }
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    String? platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await FlutterFacebookAppLinks.platformVersion;
@@ -36,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _platformVersion = platformVersion!;
     });
   }
 

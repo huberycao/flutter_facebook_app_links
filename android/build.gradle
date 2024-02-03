@@ -37,7 +37,8 @@ android {
     }
 
     dependencies {
-        implementation 'com.facebook.android:facebook-core:14.1.0'
-        implementation 'com.facebook.android:facebook-applinks:14.1.0'
+        // https://developers.facebook.com/docs/android/downloads
+        implementation 'com.facebook.android:facebook-core:16.2.0'
+        implementation 'com.facebook.android:facebook-applinks:16.2.0'
     }
 }
